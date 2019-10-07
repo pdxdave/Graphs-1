@@ -77,20 +77,58 @@ class Graph:
                     stack.push(next_vert)
         # go to top of loop
         # pass  # TODO
-    def dft_recursive(self, starting_vertex): # tonight
+    def dft_recursive(self, starting_vertex, visited=None): # tonight
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        # check to see if visited
+        if visited is None:
+            visited = []
+
+        visited.append(starting_vertex)
+            # check to see if starting_vertex is not in visited
+        for vertex in self.vertices[starting_vertex]:
+            if vertex not in visited:
+                self.dft_recursive(vertex, visited)
+
+        return visited
+        
     def bfs(self, starting_vertex, destination_vertex):  # stop when finding item
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+         # create a queue
+        qq = Queue()
+        # list of visited nodes
+        visited = set()  # O(1) search
+        # put path to node
+        qq.enqueue([starting_vertex]) 
+        # while greater zero
+        while qq.size() > 0:
+            # remove the first element
+            path = qq.dequeue()
+            # this now the current item
+            v = path[-1]
+            # if the node doesn't get a visit
+            if v not in visited:
+                visited.add(v)
+                if v == destination_vertex:
+                    return path 
+
+            for n in self.vertices[v]:
+                another_path = list(path)
+                another_path.append(n)
+                qq.enqueue(another_path)
+
+       
+
+
+
+        # pass  # TODO
     def dfs(self, starting_vertex, destination_vertex): # stop when finding item
         """
         Return a list containing a path from
