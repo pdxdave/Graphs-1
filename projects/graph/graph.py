@@ -3,6 +3,7 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -11,39 +12,86 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
+
+        pass  # TODO    
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex deos not exist") # raise is like throw in JS
+        
+
         pass  # TODO
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a queue
+        qq = Queue()
+        # list of visited nodes
+        visited = set()  # O(1) search
+        # put starting node in qq
+        qq.enqueue(starting_vertex)
+        # while qq is not empty
+        while qq.size() > 0:
+            #pop first node out of qq
+            vertex = qq.dequeue()
+        # if not visited
+            if vertex not in visited:
+                visited.add(vertex)  # what are we trying to do with the traversal? print vertex
+                print(vertex) # key to problem. 
+                # get adjecent edges and add to list
+                for next_vert in self.vertices[vertex]:
+                    qq.enqueue(next_vert)
+        # go to top of loop
+        # pass  # TODO
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+
+        # use a stack
+
+        # create a queue
+        stack = Stack()
+        # list of visited nodes
+        visited = set()  # O(1) search
+        # put starting node in qq
+        stack.push(starting_vertex)
+        # while qq is not empty
+        while stack.size() > 0:
+            #pop first node out of qq
+            vertex = stack.pop()
+        # if not visited
+            if vertex not in visited:
+                visited.add(vertex)  # what are we trying to do with the traversal? print vertex
+                print(vertex) # key to problem. 
+                # get adjecent edges and add to list
+                for next_vert in self.vertices[vertex]:
+                    stack.push(next_vert)
+        # go to top of loop
+        # pass  # TODO
+    def dft_recursive(self, starting_vertex): # tonight
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
         pass  # TODO
-    def bfs(self, starting_vertex, destination_vertex):
+    def bfs(self, starting_vertex, destination_vertex):  # stop when finding item
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
         pass  # TODO
-    def dfs(self, starting_vertex, destination_vertex):
+    def dfs(self, starting_vertex, destination_vertex): # stop when finding item
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
