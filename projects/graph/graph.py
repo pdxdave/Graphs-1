@@ -135,6 +135,29 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
+
+        s = Stack()
+
+        s.push([starting_vertex])
+
+        visited = []
+
+        while s.size() > 0:
+            path = s.pop()
+            v = path[-1]
+
+            if v not in visited:
+                if v == destination_vertex:
+                    return path 
+                visited.append(v)
+
+                for next_vert in self.vertices[v]:
+                    another_path = list(path)
+                    another_path.append(next_vert)
+                    s.push(another_path)
+
+        return None
+        
         pass  # TODO
 
 
