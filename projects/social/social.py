@@ -1,5 +1,26 @@
 
 
+# * Hint 1: To create N random friendships, you could create a list with all possible friendship combinations, shuffle the list, then grab the first N elements from the list. You will need to `import random` to get shuffle.
+# * Hint 2: `addFriendship(1, 2)` is the same as `addFriendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
+
+# * Hint 1: What kind of graph search guarantees you a shortest path?
+# * Hint 2: Instead of using a `set` to mark users as visited, you could use a `dictionary`. Similar to sets, checking if something is in a dictionary runs in O(1) time. If the visited user is the key, what would the value be?
+
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+        
 class User:
     def __init__(self, name):
         self.name = name
@@ -46,9 +67,38 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
-        # Add users
 
-        # Create friendships
+        if numUsers <= avgFriendships:
+            print("Warning. You cannot have more friendships than there are users!")
+        else:
+        # Add users
+            for i in range(numUsers):
+                self.addUser(f'User {i+1}')
+            # Create friendships
+            potentialFriendships = []
+            for userID in self.users:
+                for friendID in range(userID + 1, self.lastID + 1):
+                    potentialFriendships.append((userID, friendID))
+            random.shuffle(potentialFriendships)
+            for friendship in potentialFriendships[:numUsers]:
+                self.addFriendship(friendship[0], friendship[1])
+
+    def bfs(self, starting_vertex, search_vertex):
+        Q = Queue()
+        visited = set()
+        Q.enqueue([starting_vertex])
+        while Q.size() > 0:
+            path = Q.dequeue()
+            v = path[-1]
+            visited.add(v)
+            if v not in visited:
+                visited.add(v)
+                if v == search_vertex:
+                    return path
+                for neighbor in self.friendships[v]:
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    Q.enqueue(new_path)
 
     def getAllSocialPaths(self, userID):
         """
